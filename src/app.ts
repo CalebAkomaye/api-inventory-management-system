@@ -18,4 +18,8 @@ app.use(authenticateUser);
 
 app.get('/dashboard', router);
 
+app.get('/register', router);
+
+app.get('/clients', router);
+
 export default app;

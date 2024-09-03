@@ -2,11 +2,18 @@ import { Request, Response, NextFunction } from 'express';
 import prisma from '../utils/db';
 import bcrypt from 'bcrypt';
 
-export const authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
-  const { username, password }: { username: string; password: string } = req.body;
+export const authenticateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { username, password }: { username: string; password: string } =
+    req.body;
 
   if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
+    return res
+      .status(400)
+      .json({ message: 'Username and password are required' });
   }
 
   try {
@@ -23,7 +30,7 @@ export const authenticateUser = async (req: Request, res: Response, next: NextFu
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    next();  // Proceed to the next middleware or route handler
+    next();
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: error.message });
