@@ -22,9 +22,8 @@ model User {
 model Book {
   id            Int      @id @default(autoincrement())
   title         String
-  author        String
+  description   String
   price         Float
-  isbn          String   @unique
   publishedDate DateTime
   createdAt     DateTime @default(now())
 
@@ -37,7 +36,7 @@ model Book {
 model Customer {
   id          Int      @id @default(autoincrement())
   name        String
-  email       String   @unique
+  address     String
   phoneNumber String?  @unique
   createdAt   DateTime @default(now())
 
@@ -52,7 +51,7 @@ model Inventory {
   quantity  Int
   createdAt DateTime @default(now())
 
-  Book Book @relation(fields: [bookId], references: [id])
+  Book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
 
   @@map("inventory")
 }

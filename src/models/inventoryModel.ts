@@ -6,6 +6,5 @@ export interface Inventory {
   quantity: number;
   createdAt: Date;
 
-  // Relation
-  Book?: Book;
+  Book?: Book; // relation
 }
