@@ -1,14 +1,20 @@
-import { createBook, getBooks } from 'controllers/book.controller';
-import { createClient, getClients } from 'controllers/clients.controller';
+import { createBook, getBooks, updateBook } from 'controllers/book.controller';
+import {
+  createClient,
+  getClients,
+  updateClient,
+} from 'controllers/clients.controller';
 import express from 'express';
 
 const router = express.Router();
 
-// Route for the dashboard (using a more action-oriented name)
-router.get('/dashboard', dashboard);
+router.get('/dashboard', getBooks);
 
 // Route for fetching all clients
 router.get('/clients', getClients);
+
+// Route to update customer and customer's details
+router.patch('/clients', updateClient);
 
 // Route for adding a new client
 router.post('/clients', createClient);
@@ -18,5 +24,8 @@ router.get('/books', getBooks);
 
 // Route for adding a new book
 router.post('/books', createBook);
+
+// Route to update book and book details
+router.patch('/books', updateBook);
 
 export default router;
