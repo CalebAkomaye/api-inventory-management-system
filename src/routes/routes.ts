@@ -1,4 +1,9 @@
 import {
+  createTransaction,
+  getAllTransactions,
+  getCustomerTransactions,
+} from '../controllers/transaction.controller';
+import {
   createBook,
   getBooks,
   updateBook,
@@ -19,7 +24,7 @@ router.get('/dashboard', getBooks);
 router.get('/clients', getClients);
 
 // Route to update customer and customer's details
-router.patch('/clients', updateClient);
+router.patch('/clients/:id', updateClient);
 
 // Route for adding a new client
 router.post('/clients', createClient);
@@ -31,6 +36,12 @@ router.get('/books', getBooks);
 router.post('/books', createBook);
 
 // Route to update book and book details
-router.patch('/books', updateBook);
+router.patch('/books/:id', updateBook);
+
+router.get('/sales', getAllTransactions);
+
+router.get('/sales/:id', getCustomerTransactions);
+
+router.post('/sales', createTransaction);
 
 export default router;
