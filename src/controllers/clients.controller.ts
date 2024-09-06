@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 
+//============GET all customers=============//
 export const getClients = async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
@@ -14,6 +15,31 @@ export const getClients = async (req: Request, res: Response) => {
   }
 };
 
+//=================GET a single customer by ID===============//
+export const getClient = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ message: 'Invalid client ID' });
+    }
+
+    const customer = await prisma.customer.findUnique({ where: { id } });
+
+    if (!customer) {
+      return res.status(404).json({ message: 'Customer not found' });
+    }
+
+    res.status(200).json(customer);
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(500).json({ error: error.message });
+    }
+    return res.status(500).json({ error: 'Server error' });
+  }
+};
+
+//=================create a customer with detials===============//
 export const createClient = async (req: Request, res: Response) => {
   const { name, address, phoneNumber } = req.body;
 
@@ -36,6 +62,7 @@ export const createClient = async (req: Request, res: Response) => {
   }
 };
 
+//========================DELETE a customer with details=================//
 export const deleteClient = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
@@ -56,6 +83,7 @@ export const deleteClient = async (req: Request, res: Response) => {
   }
 };
 
+//=========================UPDATE customers details==============//
 export const updateClient = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
   const { name, address, phoneNumber } = req.body;

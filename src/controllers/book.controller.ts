@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
 
+//===================GET all books=======================//
 export const getBooks = async (req: Request, res: Response) => {
   try {
     const books = await prisma.book.findMany();
@@ -14,22 +15,31 @@ export const getBooks = async (req: Request, res: Response) => {
   }
 };
 
-// GET book with :id
-
+//=====================GET Book with ID=========================//
 export const getBook = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Invalid book ID' });
+    }
+
     const book = await prisma.book.findUnique({ where: { id } });
+
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
     res.status(200).json({ book });
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(404).json({ error: 'not found' });
+      return res.status(500).json({ error: error.message });
     }
-    return res.status(500).json({ error: 'server error' });
+    return res.status(500).json({ error: 'Server error' });
   }
 };
 
-// Add a book with details
+//===================Create book with details===================//
 export const createBook = async (req: Request, res: Response) => {
   const {
     title,
@@ -69,6 +79,7 @@ export const createBook = async (req: Request, res: Response) => {
   }
 };
 
+//========================update book details===============//
 export const updateBook = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
@@ -99,6 +110,7 @@ export const updateBook = async (req: Request, res: Response) => {
   }
 };
 
+//====================delete book========================//
 export const deleteBook = async (req: Request, res: Response) => {
   const id = parseInt(req.params.id);
 
