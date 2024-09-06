@@ -34,23 +34,20 @@ export const createBook = async (req: Request, res: Response) => {
         description,
         price,
         publishedDate,
+        Inventory: {
+          create: {
+            quantity: quantity || 0,
+          },
+        },
       },
     });
 
-    const inventory = await prisma.inventory.create({
-      data: {
-        bookId: book.id,
-        quantity: quantity || 0,
-      },
-    });
-
-    return res.status(201).json({ book, inventory });
+    return res.status(201).json(book);
   } catch (error) {
     if (error instanceof Error) {
       return res.status(500).json({ error: error.message });
-    } else {
-      return res.status(500).json({ error: 'An unknown error occurred' });
     }
+    return res.status(500).json({ error: 'An unknown error occurred' });
   }
 };
 
