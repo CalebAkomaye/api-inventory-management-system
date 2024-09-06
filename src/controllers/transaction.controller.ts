@@ -3,10 +3,9 @@ import prisma from '../utils/prisma';
 
 export const createTransaction = async (req: Request, res: Response) => {
   const { bookId, customerId, quantity, totalPrice } = req.body;
-  const id =
+  const id = parseInt(bookId);
 
   try {
-    // Log the transaction (sale)
     const transaction = await prisma.transaction.create({
       data: {
         bookId,
@@ -16,9 +15,8 @@ export const createTransaction = async (req: Request, res: Response) => {
       },
     });
 
-    // Update the inventory by reducing the stock
     await prisma.inventory.update({
-      where: { bookId },
+      where: { id },
       data: {
         quantity: {
           decrement: quantity, // Reduce the quantity in stock by the number sold
@@ -38,7 +36,6 @@ export const createTransaction = async (req: Request, res: Response) => {
     }
   }
 };
-
 
 export const getAllTransactions = async (req: Request, res: Response) => {
   try {
@@ -60,7 +57,6 @@ export const getAllTransactions = async (req: Request, res: Response) => {
   }
 };
 
-
 export const getCustomerTransactions = async (req: Request, res: Response) => {
   const customerId = parseInt(req.params.customerId);
 
@@ -74,7 +70,9 @@ export const getCustomerTransactions = async (req: Request, res: Response) => {
     });
 
     if (!transactions.length) {
-      res.status(404).json({ message: 'No transactions found for this customer' });
+      res
+        .status(404)
+        .json({ message: 'No transactions found for this customer' });
       return;
     }
 
@@ -87,5 +85,3 @@ export const getCustomerTransactions = async (req: Request, res: Response) => {
     }
   }
 };
-
-

@@ -1,7 +1,7 @@
-import express, { Router } from 'express';
+import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
-import router from 'routes/routes';
+import router from './routes/routes';
 
 const app = express();
 

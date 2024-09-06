@@ -1,9 +1,14 @@
-import { createBook, getBooks, updateBook } from 'controllers/book.controller';
+import {
+  createBook,
+  getBooks,
+  updateBook,
+} from '../controllers/book.controller';
 import {
   createClient,
   getClients,
   updateClient,
-} from 'controllers/clients.controller';
+} from '../controllers/clients.controller';
+
 import express from 'express';
 
 const router = express.Router();

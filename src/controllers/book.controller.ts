@@ -4,14 +4,32 @@ import prisma from '../utils/prisma';
 export const getBooks = async (req: Request, res: Response) => {
   try {
     const books = await prisma.book.findMany();
+    if (books.length! > 0)
+      res.status(200).json({ message: 'Nothing in library' });
     return res.status(200).json(books);
   } catch (error) {
     if (error instanceof Error) {
-      return res.status(500).json({ error: 'Unable to fetch books' });
+      return res.status(500).json({ error: error.message });
     }
   }
 };
 
+// GET book with :id
+
+export const getBook = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    const book = await prisma.book.findUnique({ where: { id } });
+    res.status(200).json({ book });
+  } catch (error) {
+    if (error instanceof Error) {
+      return res.status(404).json({ error: 'not found' });
+    }
+    return res.status(500).json({ error: 'server error' });
+  }
+};
+
+// Add a book with details
 export const createBook = async (req: Request, res: Response) => {
   const {
     title,
