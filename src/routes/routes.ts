@@ -5,6 +5,7 @@ import {
 } from '../controllers/transaction.controller';
 import {
   createBook,
+  deleteBook,
   getBook,
   getBooks,
   updateBook,
@@ -35,9 +36,11 @@ router.post('/books', createBook);
 // Route to update book and book details
 router.patch('/books/:id', updateBook);
 
+router.delete('/books/:id', deleteBook);
+
 ///==============================//
 
-//============Customers routes===============///
+//============Customers routes===============//
 
 // Route for fetching all clients
 router.get('/clients', getClients);
@@ -49,7 +52,6 @@ router.patch('/clients/:id', updateClient);
 
 // Route for adding a new client
 router.post('/clients', createClient);
-
 //================================//
 
 ///=============Transaction routes=================//

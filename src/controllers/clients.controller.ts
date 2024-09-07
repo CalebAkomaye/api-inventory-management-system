@@ -105,7 +105,6 @@ export const updateClient = async (req: Request, res: Response) => {
         phoneNumber: phoneNumber ?? existingClient.phoneNumber,
       },
     });
-
     return res.status(200).json(updatedClient);
   } catch (error) {
     if (error instanceof Error) {

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../utils/prisma';
+import { Book } from 'models/bookModel';
 
 //===================GET all books=======================//
 export const getBooks = async (req: Request, res: Response) => {
@@ -41,27 +42,15 @@ export const getBook = async (req: Request, res: Response) => {
 
 //===================Create book with details===================//
 export const createBook = async (req: Request, res: Response) => {
-  const {
-    title,
-    description,
-    price,
-    publishedDate,
-    quantity,
-  }: {
-    title: string;
-    price: number;
-    publishedDate: string;
-    description: string;
-    quantity: number;
-  } = req.body;
+  const { title, description, price, publishedDate, quantity } = req.body;
 
   try {
     const book = await prisma.book.create({
       data: {
         title,
         description,
-        price,
-        publishedDate,
+        price: parseFloat(price),
+        publishedDate: new Date(),
         Inventory: {
           create: {
             quantity: quantity || 0,
@@ -93,7 +82,7 @@ export const updateBook = async (req: Request, res: Response) => {
     const patch = {
       title: req.body.title ?? toUpdate.title,
       description: req.body.description ?? toUpdate.description,
-      price: req.body.price ?? toUpdate.price,
+      price: parseFloat(req.body.price) ?? toUpdate.price,
       publishedDate: req.body.publishedDate ?? toUpdate.publishedDate,
     };
 
@@ -121,7 +110,6 @@ export const deleteBook = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: 'Book and related inventory deleted successfully',
-      book: deletedBook,
     });
   } catch (error) {
     if (error instanceof Error) {

@@ -24,7 +24,9 @@ app.get('/books/:id', router);
 
 app.post('/books', router);
 
-app.patch('/books', router);
+app.patch('/books/:id', router);
+
+app.delete('/books/:id', router);
 
 // ================////
 
@@ -39,5 +41,11 @@ app.post('/clients', router);
 app.patch('/clients', router);
 
 /// =====================//
+
+app.get('/sales', router);
+
+app.post('/sales', router);
+
+app.get('/sales/:id', router);
 
 export default app;
